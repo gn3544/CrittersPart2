@@ -1,12 +1,11 @@
 /* CRITTERS GUI <MyClass.java>
- * EE422C Project 4b submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * EE422C Project 5 submission by
+ * <Gaurav Nagar>
+ * <gn3544>
+ * <16480>
+ * <Minkoo Park>
+ * <mp32454>
+ * <16480>
  * Slip days used: <0>
  * Fall 2016
  */
