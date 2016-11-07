@@ -1,6 +1,9 @@
 package assignment5;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 
 public abstract class Critter {
 	/* NEW FOR PROJECT 5 */
@@ -41,7 +44,37 @@ public abstract class Critter {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	}
 	
-	protected String look(int direction, boolean steps) {return "";}
+	protected String look(int direction, boolean steps) {
+		
+		int offset = 1, new_x = this.x_coord, new_y = this.y_coord;
+		HashMap<ArrayList<Integer>, ArrayList<Critter>> coordMap = getCoordMap();
+		if (steps){
+			offset = 2;
+		}
+		
+		if ((direction == 0) || (direction == 1) || (direction == 7)){
+			new_x = this.x_coord + offset;
+		}
+		else if ((direction == 3) || (direction == 4) || (direction == 5)){
+			new_x = this.x_coord - offset;
+		}
+		
+		if ((direction == 1) || (direction == 2) || (direction == 3)){
+			new_y = this.y_coord - offset;
+		}
+		else if ((direction == 5) || (direction == 6) || (direction == 7)){
+			new_y = this.y_coord + offset;
+		}
+		
+		ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
+		coordinates.set(0, new_x);
+		coordinates.set(1, new_y);
+ 		
+		if (coordMap.containsKey(coordinates)){
+			return coordMap.get(coordinates).get(0).toString();
+		}
+		return "";
+	}
 	
 	/* rest is unchanged from Project 4 */
 	
@@ -95,12 +128,13 @@ public abstract class Critter {
 	 * create tests of your Critter model, you can create subclasses of this class
 	 * and then use the setter functions contained here. 
 	 * 
-	 * NOTE: you must make sure thath the setter functions work with your implementation
+	 * NOTE: you must make sure that the setter functions work with your implementation
 	 * of Critter. That means, if you're recording the positions of your critters
 	 * using some sort of external grid or some other data structure in addition
 	 * to the x_coord and y_coord functions, then you MUST update these setter functions
-	 * so that they correctup update your grid/data structure.
+	 * so that they correct up update your grid/data structure.
 	 */
+	
 	static abstract class TestCritter extends Critter {
 		protected void setEnergy(int new_energy_value) {
 			super.energy = new_energy_value;
@@ -149,5 +183,23 @@ public abstract class Critter {
 	public static void clearWorld() {
 	}
 	
-	
+	/**
+	 * Gets a map that maps a coordinate to a list of critters on the coordinate
+	 * @return HashMap<ArrayList<Integer>, ArrayList<Critter>> the map which contains the relation
+	 * between coordinates to critters within the coordinate
+	 */
+	private static HashMap<ArrayList<Integer>, ArrayList<Critter>> getCoordMap(){
+		HashMap<ArrayList<Integer>, ArrayList<Critter>> coordMap = new HashMap<ArrayList<Integer>, ArrayList<Critter>>();
+		//coordMap is a mapping from coordinates to an arrayList of Critters to keep track of multiple Critters on a single coordinate
+		for (Critter critter: population){
+			ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
+			coordinates.add(0, critter.x_coord);
+			coordinates.add(1, critter.y_coord);
+			if (!coordMap.containsKey(coordinates)){
+				coordMap.put(coordinates, new ArrayList<Critter>());
+			}
+			coordMap.get(coordinates).add(critter);
+		}
+		return coordMap;
+	}
 }
