@@ -174,6 +174,34 @@ public class Main extends Application{
 				System.out.println("Illegal Access Exception");
 			}
 		});
+		
+		
+		/*view components*/
+		GridPane worldStageGrid = new GridPane();
+		worldStageGrid.setPadding(new Insets(10,10,10,10));
+		worldStageGrid.setVgap(20);
+		worldStageGrid.setHgap(10);
+		
+		Button startBtn = new Button();
+		startBtn.setText("S T A R T");
+		GridPane.setConstraints(startBtn, 8, 14);
+		
+		Button stopBtn = new Button();
+		stopBtn.setText("S T O P");
+		GridPane.setConstraints(stopBtn, 12, 14);
+		
+		Button frameBtn = new Button();
+		frameBtn.setText("F R A M E");
+		GridPane.setConstraints(frameBtn, 16, 14);
+		
+		worldStageGrid.getChildren().addAll(startBtn, stopBtn, frameBtn);
+		
+		Scene worldScene = new Scene(worldStageGrid, 480, 340);
+		
+		worldStage.setScene(worldScene);
+		worldStage.show();		
+		
+		
 	}
 
 }

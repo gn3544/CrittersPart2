@@ -74,7 +74,7 @@ public abstract class Critter {
 		if (coordMap.containsKey(coordinates)){
 			return coordMap.get(coordinates).get(0).toString();
 		}
-		return "";
+		return null;
 	}
 	
 	/* rest is unchanged from Project 4 */
