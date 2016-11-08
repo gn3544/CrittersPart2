@@ -69,7 +69,8 @@ public abstract class Critter {
 		ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
 		coordinates.set(0, new_x);
 		coordinates.set(1, new_y);
- 		
+ 		this.energy -= Params.look_energy_cost;
+		
 		if (coordMap.containsKey(coordinates)){
 			return coordMap.get(coordinates).get(0).toString();
 		}
