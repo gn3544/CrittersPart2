@@ -1,14 +1,3 @@
-/* CRITTERS GUI <Main.java>
- * EE422C Project 5 submission by
- * <Gaurav Nagar>
- * <gn3544>
- * <16480>
- * <Minkoo Park>
- * <mp32454>
- * <16480>
- * Slip days used: <0>
- * Fall 2016
- */
 package assignment5;
 
 import java.lang.reflect.InvocationTargetException;
@@ -106,13 +95,13 @@ public class Main extends Application{
 			try{
 				int numStep = Integer.parseInt(stepInput.getText());
 				if(numStep < 0)
-					ErrorMessageBox.displayError("Processing Error - negative input", "please enter nonnegative integer");
+					System.out.println("please enter nonnegative integer");
 				for(int i = 0; i < numStep; i ++){
 					Critter.worldTimeStep();
 				}
 			}
 			catch(NumberFormatException e1){
-				ErrorMessageBox.displayError("Processing Error - NumberFormatException", "please enter nonnegative integer");
+				System.out.println("please enter nonnegative integer");
 			}
 
 		});
@@ -120,12 +109,12 @@ public class Main extends Application{
 			try{
 			Long numSeed = Long.parseLong(seedInput.getText());	
 			if(numSeed < 0)
-				ErrorMessageBox.displayError("Processing Error", "please enter nonnegative number");
+				System.out.println("please enter nonnegative long number");
 			else
 				Critter.setSeed(numSeed);			
 			}
 			catch(NumberFormatException e1){
-				ErrorMessageBox.displayError("Processing Error", "please enter nonnegative number");
+				System.out.println("please enter nonnegative long number");
 			}
 
 		});
@@ -139,17 +128,17 @@ public class Main extends Application{
 				else{
 					int critterNum = Integer.parseInt(input);
 					if(critterNum < 0)
-						ErrorMessageBox.displayError("Processing Error", "please enter nonnegative integer");
+						System.out.println("no neg number critter");
 					else
 						for(int i = 0; i < critterNum; i ++)
 							Critter.makeCritter(critterType);			 			
 				}
 			}
 			catch(InvalidCritterException e1){
-				ErrorMessageBox.displayError("Processing Error - InvalidCritterException", "please enter valid critter type");
+				System.out.println("please enter valid type of critter");
 			}
 			catch(NumberFormatException e1){
-				ErrorMessageBox.displayError("Processing Error - NumberFormatException", "please enter nonnegative integer");
+				System.out.println("please enter nonnegative integer");
 			}
 		}); 
 		statsBtn.setOnAction(e -> {
@@ -163,26 +152,26 @@ public class Main extends Application{
 				method.invoke(cls, instances);				
 			}
 			if(Modifier.isAbstract( cls.getModifiers())){ //if abstract class, do not perform "stats"
-				ErrorMessageBox.displayError("Processing Error - Abstract Class", "That was an absract class!");
+				System.out.println("abstract class");
 			}
 			}
 			catch(InvalidCritterException e1){
-				ErrorMessageBox.displayError("Processing Error - InvalidCritterException", "please enter valid critter type");
+				System.out.println("invalid critter type");
 			} 
 			catch(ClassNotFoundException e1){
-				ErrorMessageBox.displayError("Processing Error - ClassNotFoundException", "please enter valid critter type");
+				System.out.println("class not found");
 			}
 			catch(NoSuchMethodException e1){ 
-				ErrorMessageBox.displayError("Processing Error", "NoSuchMethodFoundException");
+				System.out.println("no runstats found");
 			}
 			catch(InvocationTargetException e1){
-				ErrorMessageBox.displayError("Processing Error", "InvocationTargetException");
+				System.out.println("ITE");
 			}
 			catch(IllegalArgumentException e1){
-				ErrorMessageBox.displayError("Processing Error", "IllegalArgumentException");
+				System.out.println("IAE");
 			}
 			catch(IllegalAccessException e1){
-				ErrorMessageBox.displayError("Processing Error", "IllegalAccessException");
+				System.out.println("Illegal Access Exception");
 			}
 		});
 		
