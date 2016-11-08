@@ -1,3 +1,14 @@
+/* CRITTERS GUI <Main.java>
+ * EE422C Project 5 submission by
+ * <Gaurav Nagar>
+ * <gn3544>
+ * <16480>
+ * <Minkoo Park>
+ * <mp32454>
+ * <16480>
+ * Slip days used: <0>
+ * Fall 2016
+ */
 package assignment5;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,12 +25,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-	
-	
-	static GridPane worldStageGrid = new GridPane();
-	static Stage worldStage = new Stage();
-	static Scene worldScene = new Scene(worldStageGrid, 480, 340);
-	
+
 	public static void main(String[] args) { 
 		launch(args);
 	}
@@ -100,13 +106,13 @@ public class Main extends Application{
 			try{
 				int numStep = Integer.parseInt(stepInput.getText());
 				if(numStep < 0)
-					System.out.println("please enter nonnegative integer");
+					ErrorMessageBox.displayError("Processing Error - negative input", "please enter nonnegative integer");
 				for(int i = 0; i < numStep; i ++){
 					Critter.worldTimeStep();
 				}
 			}
 			catch(NumberFormatException e1){
-				System.out.println("please enter nonnegative integer");
+				ErrorMessageBox.displayError("Processing Error - NumberFormatException", "please enter nonnegative integer");
 			}
 
 		});
@@ -114,12 +120,12 @@ public class Main extends Application{
 			try{
 			Long numSeed = Long.parseLong(seedInput.getText());	
 			if(numSeed < 0)
-				System.out.println("please enter nonnegative long number");
+				ErrorMessageBox.displayError("Processing Error", "please enter nonnegative number");
 			else
 				Critter.setSeed(numSeed);			
 			}
 			catch(NumberFormatException e1){
-				System.out.println("please enter nonnegative long number");
+				ErrorMessageBox.displayError("Processing Error", "please enter nonnegative number");
 			}
 
 		});
@@ -133,17 +139,17 @@ public class Main extends Application{
 				else{
 					int critterNum = Integer.parseInt(input);
 					if(critterNum < 0)
-						System.out.println("no neg number critter");
+						ErrorMessageBox.displayError("Processing Error", "please enter nonnegative integer");
 					else
 						for(int i = 0; i < critterNum; i ++)
 							Critter.makeCritter(critterType);			 			
 				}
 			}
 			catch(InvalidCritterException e1){
-				System.out.println("please enter valid type of critter");
+				ErrorMessageBox.displayError("Processing Error - InvalidCritterException", "please enter valid critter type");
 			}
 			catch(NumberFormatException e1){
-				System.out.println("please enter nonnegative integer");
+				ErrorMessageBox.displayError("Processing Error - NumberFormatException", "please enter nonnegative integer");
 			}
 		}); 
 		statsBtn.setOnAction(e -> {
@@ -157,50 +163,28 @@ public class Main extends Application{
 				method.invoke(cls, instances);				
 			}
 			if(Modifier.isAbstract( cls.getModifiers())){ //if abstract class, do not perform "stats"
-				System.out.println("abstract class");
+				ErrorMessageBox.displayError("Processing Error - Abstract Class", "That was an absract class!");
 			}
 			}
 			catch(InvalidCritterException e1){
-				System.out.println("invalid critter type");
+				ErrorMessageBox.displayError("Processing Error - InvalidCritterException", "please enter valid critter type");
 			} 
 			catch(ClassNotFoundException e1){
-				System.out.println("class not found");
+				ErrorMessageBox.displayError("Processing Error - ClassNotFoundException", "please enter valid critter type");
 			}
 			catch(NoSuchMethodException e1){ 
-				System.out.println("no runstats found");
+				ErrorMessageBox.displayError("Processing Error", "NoSuchMethodFoundException");
 			}
 			catch(InvocationTargetException e1){
-				System.out.println("ITE");
+				ErrorMessageBox.displayError("Processing Error", "InvocationTargetException");
 			}
 			catch(IllegalArgumentException e1){
-				System.out.println("IAE");
+				ErrorMessageBox.displayError("Processing Error", "IllegalArgumentException");
 			}
 			catch(IllegalAccessException e1){
-				System.out.println("Illegal Access Exception");
+				ErrorMessageBox.displayError("Processing Error", "IllegalAccessException");
 			}
 		});
-		
-		
-		/*view components*/
-		worldStageGrid.setPadding(new Insets(10,10,10,10));
-		worldStageGrid.setVgap(20);
-		worldStageGrid.setHgap(10);
-		
-		Button startBtn = new Button();
-		startBtn.setText("S T A R T");
-		GridPane.setConstraints(startBtn, 8, 14);
-		
-		Button stopBtn = new Button();
-		stopBtn.setText("S T O P");
-		GridPane.setConstraints(stopBtn, 12, 14);
-		
-		Button frameBtn = new Button();
-		frameBtn.setText("F R A M E");
-		GridPane.setConstraints(frameBtn, 16, 14);
-		
-		worldStageGrid.getChildren().addAll(startBtn, stopBtn, frameBtn);
-		Critter.displayWorld();
-		
 	}
 
 }
