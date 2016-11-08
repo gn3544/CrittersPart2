@@ -252,9 +252,6 @@ public abstract class Critter {
 		babies.clear();
 	}
 	
-	public static void displayWorld() {}
-	
-	
 	/**
 	 * Performs all encounters with critters in the same coordinates
 	 */
@@ -467,5 +464,12 @@ public abstract class Critter {
 			coordMap.get(coordinates).add(critter);
 		}
 		return coordMap;
+	}
+	
+	public static void displayWorld() {
+		
+		Main.worldStage.setScene(Main.worldScene);
+		Main.worldStage.show();
+		
 	}
 }

@@ -14,7 +14,12 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-
+	
+	
+	static GridPane worldStageGrid = new GridPane();
+	static Stage worldStage = new Stage();
+	static Scene worldScene = new Scene(worldStageGrid, 480, 340);
+	
 	public static void main(String[] args) { 
 		launch(args);
 	}
@@ -177,7 +182,6 @@ public class Main extends Application{
 		
 		
 		/*view components*/
-		GridPane worldStageGrid = new GridPane();
 		worldStageGrid.setPadding(new Insets(10,10,10,10));
 		worldStageGrid.setVgap(20);
 		worldStageGrid.setHgap(10);
@@ -195,12 +199,7 @@ public class Main extends Application{
 		GridPane.setConstraints(frameBtn, 16, 14);
 		
 		worldStageGrid.getChildren().addAll(startBtn, stopBtn, frameBtn);
-		
-		Scene worldScene = new Scene(worldStageGrid, 480, 340);
-		
-		worldStage.setScene(worldScene);
-		worldStage.show();		
-		
+		Critter.displayWorld();
 		
 	}
 
