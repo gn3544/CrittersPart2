@@ -15,6 +15,7 @@ import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.*;
 
 public class ErrorMessageBox{
@@ -35,6 +36,7 @@ public class ErrorMessageBox{
 		//label holds the error message
 		Label label = new Label();
 		label.setText(message);
+		label.setFont(new Font(25));
 		Button closeBtn = new Button("Close");
 		closeBtn.setOnAction(e -> window.close());
 		//VBox layout for the button and label

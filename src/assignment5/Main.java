@@ -22,13 +22,19 @@ import javafx.scene.Scene;
 import javafx.scene.Scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Main extends Application{
 	
 	static GridPane worldStageGrid = new GridPane();
 	static Stage worldStage = new Stage();
-	static Scene worldScene = new Scene(worldStageGrid, 480, 340);
+	static Scene worldScene = new Scene(worldStageGrid, 1400, 900); // width, height
+	static int size1;
+	static int size2;
 	
 	public static void main(String[] args) { 
 		launch(args);
@@ -48,26 +54,7 @@ public class Main extends Application{
 		/*view components*/
 		/*view components*/
 		/*view components*/
-		/*view components*/
-		GridPane worldStageGrid = new GridPane();
-		worldStageGrid.setPadding(new Insets(10,10,10,10));
-		worldStageGrid.setVgap(20);
-		worldStageGrid.setHgap(10);
-		
-		Button startBtn = new Button();
-		startBtn.setText("S T A R T");
-		GridPane.setConstraints(startBtn, 8, 14);
-		
-		Button stopBtn = new Button();
-		stopBtn.setText("S T O P");
-		GridPane.setConstraints(stopBtn, 12, 14);
-		
-		Button frameBtn = new Button();
-		frameBtn.setText("F R A M E");
-		GridPane.setConstraints(frameBtn, 16, 14);
-		
-		worldStageGrid.getChildren().addAll(startBtn, stopBtn, frameBtn);
-		
+		/*view components*/	
 		Critter.displayWorld();
 		
 		/*controller components*/
@@ -91,6 +78,7 @@ public class Main extends Application{
 		stepInput.setPromptText("number of steps");
 		Button stepBtn = new Button(); 
 		stepBtn.setText("step");
+		stepBtn.setFont(new Font(20));
 		GridPane.setConstraints(stepInput, 0, 0);
 		GridPane.setConstraints(stepBtn, 1, 0);
 		//seed command
@@ -98,6 +86,7 @@ public class Main extends Application{
 		seedInput.setPromptText("number of seeds");
 		Button seedBtn = new Button();
 		seedBtn.setText("seed");
+		seedBtn.setFont(new Font(20));
 		GridPane.setConstraints(seedInput, 0, 1);
 		GridPane.setConstraints(seedBtn, 1, 1);
 		//make command
@@ -107,6 +96,7 @@ public class Main extends Application{
 		makeNum.setPromptText("Number");
 		Button makeBtn = new Button();
 		makeBtn.setText("make");
+		makeBtn.setFont(new Font(20));
 		GridPane.setConstraints(makeType, 0, 2);
 		GridPane.setConstraints(makeNum, 1, 2);
 		GridPane.setConstraints(makeBtn, 2, 2);
@@ -115,15 +105,20 @@ public class Main extends Application{
 		statsInput.setPromptText("Type");
 		Button statsBtn = new Button();
 		statsBtn.setText("stats");
+		statsBtn.setFont(new Font(20));
 		GridPane.setConstraints(statsInput, 0, 3);
 		GridPane.setConstraints(statsBtn, 1, 3);
 		//controller board label
 		Label title = new Label("CONTROLLER BOARD");
 		GridPane.setConstraints(title, 1, 5);
+		//toggle button for animation
+		ToggleButton tg = new ToggleButton();
+		tg.setText("A N I M A T I O N");
+		GridPane.setConstraints(tg, 0, 7);
 		
-		grid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn);
+		grid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn, tg);
 		
-		Scene scene = new Scene (grid, 480, 340);
+		Scene scene = new Scene (grid, 500, 700);
 		controlStage.setScene(scene);
 		controlStage.show();
 		
@@ -217,6 +212,9 @@ public class Main extends Application{
 			catch(IllegalAccessException e1){
 				ErrorMessageBox.displayError("Processing Error", "IllegalAccessException");
 			}
+		});
+		tg.setOnAction(e -> {
+			 
 		});
 	}
 

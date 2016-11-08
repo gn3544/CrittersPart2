@@ -14,6 +14,9 @@ package assignment5;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.geometry.Insets;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 
 
 public abstract class Critter {
@@ -473,8 +476,61 @@ public abstract class Critter {
 		return coordMap;
 	}
 	
+	/**
+	 * This method draw each critter on the board 
+	 * after updating its positions correctly
+	 */
 	public static void displayWorld(){
+		//iterate critter collection to take care of wrap-arounds
+		for(Critter s : population){
+			//take care of warparounds for walk and run
+			if(s.y_coord >= Params.world_height){
+				s.y_coord = s.y_coord % Params.world_height;
+			}
+			else if(s.y_coord < 0){
+				s.y_coord = (s.y_coord % Params.world_height) + Params.world_height;
+			}
+			
+			if(s.x_coord >= Params.world_width){
+				s.x_coord = s.x_coord % Params.world_width;
+			}
+			else if(s.x_coord < 0){
+				s.x_coord = (s.x_coord % Params.world_width) + Params.world_width;
+			}
+		} 
+		//construct a map of size World_Height by World_Width
+		Main.worldStageGrid.setPadding(new Insets(10,10,10,10));
+		Main.size2 = 850/Params.world_height;
+		Main.size1 = 1350/Params.world_width;
+		int size;
+		if(Main.size2 < Main.size1) size = Main.size2; else size = Main.size1;
+		for(int i = 0; i < Params.world_width; i ++){
+			for(int j = 0; j < Params.world_height; j ++){
+				Shape s = new Rectangle(size, size);
+				s.setFill(null); 
+				s.setStroke(Color.BLACK);
+				Main.worldStageGrid.add(s, i, j); 
+			}
+		}
+		//add all existing critters on the board
+		for(Critter s : population){ 
+			if(s.getClass().equals(new Algae().getClass())){
+				Shape crit = new Circle(size/2);
+				crit.setFill(Color.RED);
+				crit.setStroke(Color.BROWN);
+				Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
+			}
+			else if(s.getClass().equals(new Craig().getClass())){
+				Shape crit = new Rectangle(size, size);
+				crit.setFill(Color.BLUE);
+				crit.setStroke(Color.WHITE);
+				Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
+			}
+
+		}
+		//show window
 		Main.worldStage.setScene(Main.worldScene);
 		Main.worldStage.show();
 	}
+
 }
