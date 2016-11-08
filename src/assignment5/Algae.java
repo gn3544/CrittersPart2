@@ -1,3 +1,14 @@
+/* CRITTERS GUI <Algae.java>
+ * EE422C Project 5 submission by
+ * <Gaurav Nagar>
+ * <gn3544>
+ * <16480>
+ * <Minkoo Park>
+ * <mp32454>
+ * <16480>
+ * Slip days used: <0>
+ * Fall 2016
+ */
 package assignment5;
 
 
