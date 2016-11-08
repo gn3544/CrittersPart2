@@ -25,7 +25,11 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-
+	
+	static GridPane worldStageGrid = new GridPane();
+	static Stage worldStage = new Stage();
+	static Scene worldScene = new Scene(worldStageGrid, 480, 340);
+	
 	public static void main(String[] args) { 
 		launch(args);
 	}
@@ -39,7 +43,36 @@ public class Main extends Application{
 		
 		worldStage.setTitle("Critter World");
 		controlStage.setTitle("Controller");
+		 
+		/*view components*/
+		/*view components*/
+		/*view components*/
+		/*view components*/
+		/*view components*/
+		GridPane worldStageGrid = new GridPane();
+		worldStageGrid.setPadding(new Insets(10,10,10,10));
+		worldStageGrid.setVgap(20);
+		worldStageGrid.setHgap(10);
 		
+		Button startBtn = new Button();
+		startBtn.setText("S T A R T");
+		GridPane.setConstraints(startBtn, 8, 14);
+		
+		Button stopBtn = new Button();
+		stopBtn.setText("S T O P");
+		GridPane.setConstraints(stopBtn, 12, 14);
+		
+		Button frameBtn = new Button();
+		frameBtn.setText("F R A M E");
+		GridPane.setConstraints(frameBtn, 16, 14);
+		
+		worldStageGrid.getChildren().addAll(startBtn, stopBtn, frameBtn);
+		
+		Critter.displayWorld();
+		
+		/*controller components*/
+		/*controller components*/
+		/*controller components*/
 		/*controller components*/
 		GridPane grid = new GridPane();
 		grid.setPadding(new Insets(10,10,10,10));
