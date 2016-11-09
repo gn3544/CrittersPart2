@@ -33,8 +33,15 @@ public class Main extends Application{
 	static GridPane worldStageGrid = new GridPane();
 	static Stage worldStage = new Stage();
 	static Scene worldScene = new Scene(worldStageGrid, 1400, 900); // width, height
+	
+	static GridPane controlStageGrid = new GridPane();
+	static Stage controlStage = new Stage();
+	static Scene controlScene = new Scene(controlStageGrid, 500, 700);
+	
 	static int size1;
 	static int size2;
+	static boolean toggled = false;
+	static int frame = 5;
 	
 	public static void main(String[] args) { 
 		launch(args);
@@ -43,10 +50,6 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		//Two stages for VIEW and CONTROL
-		Stage worldStage = new Stage();
-		worldStage = primaryStage;
-		Stage controlStage = new Stage();
-		
 		worldStage.setTitle("Critter World");
 		controlStage.setTitle("Controller");
 		 
@@ -61,18 +64,20 @@ public class Main extends Application{
 		/*controller components*/
 		/*controller components*/
 		/*controller components*/
-		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(10,10,10,10));
-		grid.setVgap(20);
-		grid.setHgap(10);
+		controlStageGrid.setPadding(new Insets(10,10,10,10));
+		controlStageGrid.setVgap(20);
+		controlStageGrid.setHgap(10);
+		
 		//quit command
 		Button quitBtn = new Button();
 		quitBtn.setText("Q U I T");
 		GridPane.setConstraints(quitBtn, 0, 5);
+		
 		//show command
 		Button showBtn = new Button();
 		showBtn.setText("S H O W");
 		GridPane.setConstraints(showBtn, 0, 6);
+		
 		//step command
 		TextField stepInput = new TextField();
 		stepInput.setPromptText("number of steps");
@@ -81,6 +86,7 @@ public class Main extends Application{
 		stepBtn.setFont(new Font(20));
 		GridPane.setConstraints(stepInput, 0, 0);
 		GridPane.setConstraints(stepBtn, 1, 0);
+		
 		//seed command
 		TextField seedInput = new TextField();
 		seedInput.setPromptText("number of seeds");
@@ -89,6 +95,7 @@ public class Main extends Application{
 		seedBtn.setFont(new Font(20));
 		GridPane.setConstraints(seedInput, 0, 1);
 		GridPane.setConstraints(seedBtn, 1, 1);
+		
 		//make command
 		TextField makeType = new TextField();
 		makeType.setPromptText("Type");
@@ -97,29 +104,33 @@ public class Main extends Application{
 		Button makeBtn = new Button();
 		makeBtn.setText("make");
 		makeBtn.setFont(new Font(20));
+		
 		GridPane.setConstraints(makeType, 0, 2);
 		GridPane.setConstraints(makeNum, 1, 2);
 		GridPane.setConstraints(makeBtn, 2, 2);
+		
 		//stats command
 		TextField statsInput = new TextField();
 		statsInput.setPromptText("Type");
 		Button statsBtn = new Button();
 		statsBtn.setText("stats");
 		statsBtn.setFont(new Font(20));
+		
 		GridPane.setConstraints(statsInput, 0, 3);
 		GridPane.setConstraints(statsBtn, 1, 3);
+		
 		//controller board label
 		Label title = new Label("CONTROLLER BOARD");
 		GridPane.setConstraints(title, 1, 5);
+		
 		//toggle button for animation
-		ToggleButton tg = new ToggleButton();
-		tg.setText("A N I M A T I O N");
-		GridPane.setConstraints(tg, 0, 7);
+		Button animateBtn = new Button();
+		animateBtn.setText("A N I M A T E");
+		GridPane.setConstraints(animateBtn, 0, 7);
 		
-		grid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn, tg);
+		controlStageGrid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn, animateBtn);
 		
-		Scene scene = new Scene (grid, 500, 700);
-		controlStage.setScene(scene);
+		controlStage.setScene(controlScene);
 		controlStage.show();
 		
 		/*event handlers for controller board*/
@@ -127,9 +138,12 @@ public class Main extends Application{
 			controlStage.close();
 			
 		});
+		
 		showBtn.setOnAction(e -> {
 			Critter.displayWorld();
+			
 		});
+		
 		stepBtn.setOnAction(e -> {
 			try{
 				int numStep = Integer.parseInt(stepInput.getText());
@@ -213,9 +227,30 @@ public class Main extends Application{
 				ErrorMessageBox.displayError("Processing Error", "IllegalAccessException");
 			}
 		});
-		tg.setOnAction(e -> {
-			 
+		
+		animateBtn.setOnAction(e -> {
+			
+			if (!toggled){
+				toggled = true;
+				animate(frame);
+			}
+			else{
+				toggled = false;
+			}
 		});
+		
+		
 	}
-
+	
+	public void animate(int frameRate){
+		
+		int time = 0;
+		while (true){
+			if (frameRate != 0 && time % frameRate == 0){
+				Critter.displayWorld();
+			}
+			Critter.worldTimeStep();
+			time++;
+		}
+	}
 }

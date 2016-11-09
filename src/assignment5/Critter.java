@@ -471,8 +471,8 @@ public abstract class Critter {
 		for (Critter critter: population){
 			if (critter != null){
 				ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
-				coordinates.add(critter.x_coord);
-				coordinates.add(critter.y_coord);
+				coordinates.add(0, critter.x_coord);
+				coordinates.add(1, critter.y_coord);
 				if (!coordMap.containsKey(coordinates)){
 					coordMap.put(coordinates, new ArrayList<Critter>());
 				}
