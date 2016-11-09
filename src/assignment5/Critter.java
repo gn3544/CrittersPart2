@@ -488,6 +488,7 @@ public abstract class Critter {
 	 */
 	public static void displayWorld(){
 		//iterate critter collection to take care of wrap-arounds
+		Main.worldStageGrid.getChildren().clear();
 		wrapAround();
 		//construct a map of size World_Height by World_Width
 		Main.worldStageGrid.setPadding(new Insets(10,10,10,10));
@@ -507,33 +508,32 @@ public abstract class Critter {
 		for(Critter c : population){
 			if (c != null){
 				Shape s = null;
-				/*
-				if(s.getClass().equals(new Algae().getClass())){
-					Shape crit = new Circle(size/2);
-					crit.setFill(Color.RED);
-					crit.setStroke(Color.BROWN);
-					Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
-				}
-				else if(s.getClass().equals(new Craig().getClass())){
-					Shape crit = new Rectangle(size, size);
-					crit.setFill(Color.BLUE);
-					crit.setStroke(Color.WHITE);
-					Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
-				}
-				*/
 				switch (c.viewShape()) {
 				case CIRCLE:
-					s = new Circle(size/2);
+					s = new Circle(size/2); break; 
 				case SQUARE:
-					s = new Rectangle(size, size);
-					/*
+					s = new Rectangle(size, size); break;
+					
 				case TRIANGLE: //HOW TO FIX THIS?
-					s = new Triangle(size);
+					Polygon triangle = new Polygon();
+					triangle.getPoints().addAll(new Double[]{
+						(double)(size/2), 4.0,
+						(double)size - 1.0,(double)size,
+						1.0 , (double)size
+					});
+					s = triangle; break;
 				case DIAMOND:
-					s = new Diamond(size);
-				case STAR:
+					Polygon diamond = new Polygon();
+					diamond.getPoints().addAll(new Double[]{
+							(double)(size/2), 1.0,
+							(double)(size)- 1.0, (double)(size/2),
+							(double)(size/2),(double)(size) - 1.0,
+							1.0, (double)(size/2)
+					});
+					s = diamond; break;
+				/*case STAR:
 					s = new Star(size);
-					*/
+				*/
 				}
 				s.setFill(c.viewFillColor()); //PLEASE CHECK THIS WHOLE SECTION!
 				s.setStroke(c.viewOutlineColor());

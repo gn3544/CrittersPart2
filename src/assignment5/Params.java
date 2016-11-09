@@ -12,13 +12,13 @@
 package assignment5;
  
 public class Params {
-	public static int world_width = 20; //130
-	public static int world_height = 20; //80
+	public static int world_width = 5; //130
+	public static int world_height = 5; //80
 	public static int walk_energy_cost = 2;
 	public static int run_energy_cost = 5;
 	public static int rest_energy_cost = 0;
-	public static int min_reproduce_energy = 20;//20
-	public static int refresh_algae_count = 10; //10
+	public static int min_reproduce_energy = 2000;//20
+	public static int refresh_algae_count = 0; //10
 
 	public static int photosynthesis_energy_amount = 1;
 	public static int start_energy = 100;
@@ -26,3 +26,4 @@ public class Params {
 	public static int look_energy_cost = 1;
 
 }
+ 
