@@ -27,6 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.animation.*;
 
 public class Main extends Application{
 	
@@ -41,7 +42,8 @@ public class Main extends Application{
 	static int size1;
 	static int size2;
 	static boolean toggled = false;
-	static int frame = 5;
+	static long frame = 5;
+	static long time;
 	
 	public static void main(String[] args) { 
 		launch(args);
@@ -49,6 +51,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		Animation animation = new Animation();
 		//Two stages for VIEW and CONTROL
 		worldStage.setTitle("Critter World");
 		controlStage.setTitle("Controller");
@@ -128,7 +131,16 @@ public class Main extends Application{
 		animateBtn.setText("A N I M A T E");
 		GridPane.setConstraints(animateBtn, 0, 7);
 		
-		controlStageGrid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn, animateBtn);
+		//slider for frame
+		Slider frameSlider = new Slider();
+		frameSlider.setShowTickMarks(true);
+		frameSlider.setShowTickLabels(true);
+		frameSlider.setMax(20);
+		frameSlider.setMin(1);
+		frameSlider.setBlockIncrement(5);
+		GridPane.setConstraints(frameSlider, 1, 7);
+		
+		controlStageGrid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn, animateBtn, frameSlider);
 		
 		controlStage.setScene(controlScene);
 		controlStage.show();
@@ -136,7 +148,7 @@ public class Main extends Application{
 		/*event handlers for controller board*/
 		quitBtn.setOnAction(e -> {
 			controlStage.close();
-			
+			worldStage.close();
 		});
 		
 		showBtn.setOnAction(e -> {
@@ -229,28 +241,45 @@ public class Main extends Application{
 		});
 		
 		animateBtn.setOnAction(e -> {
-			
 			if (!toggled){
 				toggled = true;
-				animate(frame);
+				frame = (long) frameSlider.getValue();
+				time = frame;
+				animation.start();
+				for (javafx.scene.Node s: controlStageGrid.getChildren()){
+					if ((s instanceof Button && s != animateBtn) || (s instanceof Slider)){
+						s.setDisable(true);
+					}
+				}
 			}
 			else{
 				toggled = false;
+				animation.stop();
+				for (javafx.scene.Node s: controlStageGrid.getChildren()){
+					if ((s instanceof Button && s != animateBtn) || (s instanceof Slider)){
+						s.setDisable(false);
+					}
+				}
 			}
 		});
 		
 		
 	}
+
+	private class Animation extends AnimationTimer{
 	
-	public void animate(int frameRate){
+		public void handle(long frame){
+			performAnimation();
+		}
 		
-		int time = 0;
-		while (true){
-			if (frameRate != 0 && time % frameRate == 0){
-				Critter.displayWorld();
-			}
+		private void performAnimation(){
+			time -= 1;
 			Critter.worldTimeStep();
-			time++;
+			if (time == 0){
+				Critter.displayWorld();
+				time = frame;
+			}
 		}
 	}
 }
+

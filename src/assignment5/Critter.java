@@ -504,18 +504,40 @@ public abstract class Critter {
 			}
 		}
 		//add all existing critters on the board
-		for(Critter s : population){ 
-			if(s.getClass().equals(new Algae().getClass())){
-				Shape crit = new Circle(size/2);
-				crit.setFill(Color.RED);
-				crit.setStroke(Color.BROWN);
-				Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
-			}
-			else if(s.getClass().equals(new Craig().getClass())){
-				Shape crit = new Rectangle(size, size);
-				crit.setFill(Color.BLUE);
-				crit.setStroke(Color.WHITE);
-				Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
+		for(Critter c : population){
+			if (c != null){
+				Shape s = null;
+				/*
+				if(s.getClass().equals(new Algae().getClass())){
+					Shape crit = new Circle(size/2);
+					crit.setFill(Color.RED);
+					crit.setStroke(Color.BROWN);
+					Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
+				}
+				else if(s.getClass().equals(new Craig().getClass())){
+					Shape crit = new Rectangle(size, size);
+					crit.setFill(Color.BLUE);
+					crit.setStroke(Color.WHITE);
+					Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
+				}
+				*/
+				switch (c.viewShape()) {
+				case CIRCLE:
+					s = new Circle(size/2);
+				case SQUARE:
+					s = new Rectangle(size, size);
+					/*
+				case TRIANGLE: //HOW TO FIX THIS?
+					s = new Triangle(size);
+				case DIAMOND:
+					s = new Diamond(size);
+				case STAR:
+					s = new Star(size);
+					*/
+				}
+				s.setFill(c.viewFillColor()); //PLEASE CHECK THIS WHOLE SECTION!
+				s.setStroke(c.viewOutlineColor());
+				Main.worldStageGrid.add(s, c.x_coord, c.y_coord);
 			}
 		}
 		//show window
