@@ -236,7 +236,10 @@ public abstract class Critter {
 	 
 	 for (Critter critter: population){ //first do time step, precondition is that all are alive
 	 	critter.doTimeStep();
+	 	
 	 }
+
+	 wrapAround();
 	 
 	 for (int i = 0; i < population.size(); i++){ //remove dead critters from doTimeStep()
 	 	if (population.get(i).getEnergy() <= 0){
@@ -247,6 +250,7 @@ public abstract class Critter {
 	 
 	 //getCoordMap()
 	 encounter(); //fix all encounters
+	 wrapAround();
 	 
 	 for (Critter critter: population){ //update rest energy
 	 	critter.energy -= Params.rest_energy_cost;
@@ -465,13 +469,15 @@ public abstract class Critter {
 		HashMap<ArrayList<Integer>, ArrayList<Critter>> coordMap = new HashMap<ArrayList<Integer>, ArrayList<Critter>>();
 		//coordMap is a mapping from coordinates to an arrayList of Critters to keep track of multiple Critters on a single coordinate
 		for (Critter critter: population){
-			ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
-			coordinates.add(0, critter.x_coord);
-			coordinates.add(1, critter.y_coord);
-			if (!coordMap.containsKey(coordinates)){
-				coordMap.put(coordinates, new ArrayList<Critter>());
+			if (critter != null){
+				ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
+				coordinates.add(critter.x_coord);
+				coordinates.add(critter.y_coord);
+				if (!coordMap.containsKey(coordinates)){
+					coordMap.put(coordinates, new ArrayList<Critter>());
+				}
+				coordMap.get(coordinates).add(critter);
 			}
-			coordMap.get(coordinates).add(critter);
 		}
 		return coordMap;
 	}
@@ -482,30 +488,15 @@ public abstract class Critter {
 	 */
 	public static void displayWorld(){
 		//iterate critter collection to take care of wrap-arounds
-		for(Critter s : population){
-			//take care of warparounds for walk and run
-			if(s.y_coord >= Params.world_height){
-				s.y_coord = s.y_coord % Params.world_height;
-			}
-			else if(s.y_coord < 0){
-				s.y_coord = (s.y_coord % Params.world_height) + Params.world_height;
-			}
-			
-			if(s.x_coord >= Params.world_width){
-				s.x_coord = s.x_coord % Params.world_width;
-			}
-			else if(s.x_coord < 0){
-				s.x_coord = (s.x_coord % Params.world_width) + Params.world_width;
-			}
-		} 
+		wrapAround();
 		//construct a map of size World_Height by World_Width
 		Main.worldStageGrid.setPadding(new Insets(10,10,10,10));
 		Main.size2 = 850/Params.world_height;
 		Main.size1 = 1350/Params.world_width;
 		int size;
 		if(Main.size2 < Main.size1) size = Main.size2; else size = Main.size1;
-		for(int i = 0; i < Params.world_width; i ++){
-			for(int j = 0; j < Params.world_height; j ++){
+		for(int i = 0; i < Params.world_width; i++){
+			for(int j = 0; j < Params.world_height; j++){
 				Shape s = new Rectangle(size, size);
 				s.setFill(null); 
 				s.setStroke(Color.BLACK);
@@ -526,11 +517,29 @@ public abstract class Critter {
 				crit.setStroke(Color.WHITE);
 				Main.worldStageGrid.add(crit, s.x_coord, s.y_coord);
 			}
-
 		}
 		//show window
 		Main.worldStage.setScene(Main.worldScene);
 		Main.worldStage.show();
+	}
+	
+	private static void wrapAround(){
+		for(Critter s : population){
+			//take care of wraparounds for walk and run
+			if(s.y_coord >= Params.world_height){
+				s.y_coord = s.y_coord % Params.world_height;
+			}
+			else if(s.y_coord < 0){
+				s.y_coord = (s.y_coord % Params.world_height) + Params.world_height;
+			}
+			
+			if(s.x_coord >= Params.world_width){
+				s.x_coord = s.x_coord % Params.world_width;
+			}
+			else if(s.x_coord < 0){
+				s.x_coord = (s.x_coord % Params.world_width) + Params.world_width;
+			}
+		} 
 	}
 
 }
