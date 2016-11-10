@@ -14,6 +14,7 @@ package assignment5;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -398,7 +399,27 @@ public abstract class Critter {
 	 		 	return result;
 	 	}
 	
-	public static void runStats(List<Critter> critters) {}
+	public static String runStats(List<Critter> critters) {
+		
+		String result = "" + critters.size() + " critters as follows -- ";
+		java.util.Map<String, Integer> critter_count = new java.util.HashMap<String, Integer>();
+		for (Critter crit : critters) {
+			String crit_string = crit.toString();
+			Integer old_count = critter_count.get(crit_string);
+			if (old_count == null) {
+				critter_count.put(crit_string,  1);
+			} else {
+				critter_count.put(crit_string, old_count.intValue() + 1);
+			}
+		}
+		String prefix = "";
+		for (String s : critter_count.keySet()) {
+			result += prefix + s + ":" + critter_count.get(s);
+			prefix = ", ";
+		}
+		return result;	
+		
+	}
 	
 	/* the TestCritter class allows some critters to "cheat". If you want to 
 	 * create tests of your Critter model, you can create subclasses of this class

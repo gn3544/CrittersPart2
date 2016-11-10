@@ -61,11 +61,12 @@ public class Craig extends Critter {
 		dir = (dir + turn) % 8;
 	}
 
-	public static void runStats(java.util.List<Critter> craigs) {
+	public static String runStats(java.util.List<Critter> craigs) {
 		int total_straight = 0;
 		int total_left = 0;
 		int total_right = 0;
 		int total_back = 0;
+		String result = "";
 		for (Object obj : craigs) {
 			Craig c = (Craig) obj;
 			total_straight += c.genes[0];
@@ -73,12 +74,12 @@ public class Craig extends Critter {
 			total_back += c.genes[4];
 			total_left += c.genes[5] + c.genes[6] + c.genes[7];
 		}
-		System.out.print("" + craigs.size() + " total Craigs    ");
-		System.out.print("" + total_straight / (GENE_TOTAL * 0.01 * craigs.size()) + "% straight   ");
-		System.out.print("" + total_back / (GENE_TOTAL * 0.01 * craigs.size()) + "% back   ");
-		System.out.print("" + total_right / (GENE_TOTAL * 0.01 * craigs.size()) + "% right   ");
-		System.out.print("" + total_left / (GENE_TOTAL * 0.01 * craigs.size()) + "% left   ");
-		System.out.println();
+		result += "" + craigs.size() + " total Craigs    \n";
+		result += "" + total_straight / (GENE_TOTAL * 0.01 * craigs.size()) + "% straight   \n";
+		result += "" + total_back / (GENE_TOTAL * 0.01 * craigs.size()) + "% back   \n";
+		result += "" + total_right / (GENE_TOTAL * 0.01 * craigs.size()) + "% right   \n";
+		result += "" + total_left / (GENE_TOTAL * 0.01 * craigs.size()) + "% left   \n";
+		return result;
 	}
 	
 	@Override

@@ -140,7 +140,13 @@ public class Main extends Application{
 		frameSlider.setBlockIncrement(5);
 		GridPane.setConstraints(frameSlider, 1, 7);
 		
-		controlStageGrid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, statsInput, statsBtn, showBtn, quitBtn, animateBtn, frameSlider);
+		//label for runStats
+		Label statistic = new Label();
+		GridPane.setConstraints(statistic, 0, 9);
+		
+		
+		controlStageGrid.getChildren().addAll(title, stepInput, stepBtn, seedInput, seedBtn, makeType, makeNum, makeBtn, 
+				statsInput, statsBtn, showBtn, quitBtn, animateBtn, frameSlider, statistic);
 		
 		controlStage.setScene(controlScene);
 		controlStage.show();
@@ -213,11 +219,12 @@ public class Main extends Application{
 			List<Critter> instances = Critter.getInstances(className); //get list of specific critter instances
 			Class <?> cls = Class.forName(myPackage + "." + className); //get class type object
 			if(!(Modifier.isAbstract( cls.getModifiers() ))){ //if concrete class, perform "stats"
-				Method method = cls.getMethod("runStats", List.class);
-				method.invoke(cls, instances);				
+				Method getStats = cls.getMethod("runStats", List.class);
+				String output = (String) getStats.invoke(cls, instances);
+				statistic.setText("Statistics for " + className + ": " + output);
 			}
 			if(Modifier.isAbstract( cls.getModifiers())){ //if abstract class, do not perform "stats"
-				ErrorMessageBox.displayError("Processing Error - Abstract Class", "That was an absract class!");
+				ErrorMessageBox.displayError("Processing Error - Abstract Class", "That was an abstract class!");
 			}
 			}
 			catch(InvalidCritterException e1){
