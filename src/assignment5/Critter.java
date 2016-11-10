@@ -531,9 +531,16 @@ public abstract class Critter {
 							1.0, (double)(size/2)
 					});
 					s = diamond; break;
-				/*case STAR:
-					s = new Star(size);
-				*/
+				case STAR:
+					Polygon star = new Polygon();
+					star.getPoints().addAll(new Double[]{
+							(double)(size/5.0), (double) size - 1.0,
+							(double)(size/2), 1.0,
+							(double)(4*size/5.0), (double) size - 1.0,
+							1.0, (double)(size/3),
+							(double)(size) - 1.0, (double)(size/3)
+					});
+					s = star; break;
 				}
 				s.setFill(c.viewFillColor()); //PLEASE CHECK THIS WHOLE SECTION!
 				s.setStroke(c.viewOutlineColor());
