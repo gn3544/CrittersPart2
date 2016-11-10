@@ -81,9 +81,9 @@ public abstract class Critter {
 			new_y = this.y_coord + offset;
 		}
 		
-		ArrayList<Integer> coordinates = new ArrayList<Integer>(2);
-		coordinates.set(0, new_x);
-		coordinates.set(1, new_y);
+		ArrayList<Integer> coordinates = new ArrayList<Integer>();
+		coordinates.add(new_x);
+		coordinates.add(new_y);
  		this.energy -= Params.look_energy_cost;
 		
 		if (coordMap.containsKey(coordinates)){
